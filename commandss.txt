@@ -1,0 +1,7 @@
+// install vue
+npm init vite vue
+    choose vue
+            vue
+
+------------------------
+
