@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
@@ -14,7 +14,7 @@ class AuthController extends Controller
             'email' => 'required|email|string|unique:users,email',
             'password' => [
                 'required','confirmed',
-                Password::min(8)->mixedCase()->numbers()->symbols()
+                // Password::min(8)->mixedCase()->numbers()->symbols()
             ]
         ]);
 
