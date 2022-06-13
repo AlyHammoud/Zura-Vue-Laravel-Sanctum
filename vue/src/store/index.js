@@ -7,6 +7,8 @@ const store = createStore({
       data: {},
       token: sessionStorage.getItem("TOKEN"), //to prevent log out on refresh the page, check line 22
     },
+
+    loadingWhole: false,
   },
 
   getters: {},
@@ -26,6 +28,10 @@ const store = createStore({
     setToken: (state, token) => {
       state.user.token = token;
       sessionStorage.setItem("TOKEN", token);
+    },
+
+    loadingWhole(state, payload) {
+      state.loadingWhole = payload;
     },
   },
 
@@ -62,7 +68,7 @@ const store = createStore({
 
     async logout({ commit }) {
       return await axiosClient.get("/user").then((res) => {
-        if(res) commit("logout");
+        if (res) commit("logout");
         return res;
       });
     },

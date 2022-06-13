@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-full">
+    <LoadingWhole v-if="this.$store.state.loadingWhole" />
     <Disclosure as="nav" class="bg-gray-800" v-slot="{ open }">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
@@ -119,6 +120,7 @@
 </template>
 
 <script>
+import LoadingWhole from "./MyAddOns/LoadingWhole.vue";
 import {
   Disclosure,
   DisclosureButton,
@@ -148,6 +150,8 @@ export default {
     BellIcon,
     MenuIcon,
     XIcon,
+
+    LoadingWhole,
   },
 
   setup() {
@@ -155,7 +159,9 @@ export default {
     const router = useRouter();
 
     const logout = () => {
+      store.commit("loadingWhole", true);
       store.dispatch("logout").then(() => {
+        store.commit("loadingWhole", false);
         router.push({ name: "Login" });
       });
     };

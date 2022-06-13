@@ -1,5 +1,6 @@
 <template>
   <div>
+    <LoadingWhole v-if="this.$store.state.loadingWhole" />
     <div>
       <img
         class="mx-auto h-12 w-auto"
@@ -21,7 +22,10 @@
       </p>
     </div>
     <form class="mt-8 space-y-6" @submit.prevent="login">
-      <div v-if="errorMsg" class="py-3 px-5 bg-red-500 text-white rounded flex justify-between">
+      <div
+        v-if="errorMsg"
+        class="py-3 px-5 bg-red-500 text-white rounded flex justify-between"
+      >
         {{ errorMsg }}
         <span
           @click="errorMsg = ''"
@@ -107,6 +111,7 @@
 
 <script setup>
 import { LockClosedIcon } from "@heroicons/vue/solid";
+import LoadingWhole from "../components/MyAddOns/LoadingWhole.vue";
 import { reactive, ref } from "@vue/reactivity";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
@@ -123,9 +128,11 @@ const user = reactive({
 const errorMsg = ref("");
 
 const login = () => {
+  store.commit("loadingWhole", true);
   store
     .dispatch("login", user)
     .then((success) => {
+      store.commit("loadingWhole", false);
       router.push({ name: "Dashboard" });
     })
     .catch((err) => {
