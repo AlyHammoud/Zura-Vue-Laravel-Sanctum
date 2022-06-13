@@ -90,7 +90,7 @@
               aria-hidden="true"
             />
           </span>
-          Sign up
+          {{ loading }}
         </button>
       </div>
     </form>
@@ -99,6 +99,7 @@
 
 <script setup>
 import { LockClosedIcon } from "@heroicons/vue/solid";
+import { computed, ref } from "@vue/runtime-core";
 import { useRouter } from "vue-router";
 import store from "../store";
 
@@ -110,12 +111,25 @@ const user = {
   password_confirmation: "",
 };
 
-const register = () => {
+const isLoading = ref(null);
+
+const register =  () => {
+
+  isLoading.value = true;
+
   store.dispatch("register", user)
     .then(success => {
+        isLoading.value = false;
         router.push({ name: "DefaultLayout" });
     });
 };
+
+const loading = computed(() =>{
+  if(isLoading){
+    return "Loading..."
+  }
+  return "Sign Up"
+})
 </script>
 
 <style></style>

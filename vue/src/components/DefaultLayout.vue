@@ -31,7 +31,7 @@
           </div>
           <div class="hidden md:block">
             <div class="ml-4 flex items-center md:ml-6">
-        
+              <p class="text-white">{{ user.name }}</p>
               <!-- Profile dropdown -->
               <Menu as="div" class="ml-3 relative">
                 <div>
@@ -57,9 +57,7 @@
                   <MenuItems
                     class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                   >
-                    <MenuItem
-                      
-                    >
+                    <MenuItem>
                       <a
                         @click="logout"
                         :class="[
@@ -104,7 +102,6 @@
           >
         </div>
         <div class="pt-4 pb-3 border-t border-gray-700">
-          
           <div class="mt-3 px-2 space-y-1">
             <DisclosureButton
               @click="logout"
@@ -118,7 +115,6 @@
     </Disclosure>
 
     <router-view></router-view>
-
   </div>
 </template>
 
@@ -134,9 +130,9 @@ import {
 } from "@headlessui/vue";
 
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/vue/outline";
-import { useStore } from 'vuex';
-import { computed } from '@vue/runtime-core';
-import { useRouter } from 'vue-router';
+import { useStore } from "vuex";
+import { computed } from "@vue/runtime-core";
+import { useRouter } from "vue-router";
 
 //Export default
 export default {
@@ -159,19 +155,29 @@ export default {
     const router = useRouter();
 
     const logout = () => {
-      store.commit('logout');
-      router.push({name: "Login"});
-    }
+      store.dispatch("logout").then(() => {
+        router.push({ name: "Login" });
+      });
+    };
 
     const navigation = [
-      { name: "Dashboard", to: {name: 'Dashboard'} },
-      { name: "Surveys",  to: {name: 'Surveys'} },
+      { name: "Dashboard", to: { name: "Dashboard" } },
+      { name: "Surveys", to: { name: "Surveys" } },
     ];
-    
+
+    store
+      .dispatch("getUser")
+      .then((result) => {
+        // console.log(result);
+      })
+      .catch((err) => {
+        // console.log(err);
+      });
+
     return {
       user: computed(() => store.state.user.data),
       navigation,
-      logout
+      logout,
     };
   },
 };

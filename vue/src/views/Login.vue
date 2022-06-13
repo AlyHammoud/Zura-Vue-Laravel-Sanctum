@@ -12,17 +12,43 @@
       <p class="mt-2 text-center text-sm text-gray-600">
         Or
         {{ "" }}
-        <router-link :to="{name: 'Register'}" class="font-medium text-indigo-600 hover:text-indigo-500">
+        <router-link
+          :to="{ name: 'Register' }"
+          class="font-medium text-indigo-600 hover:text-indigo-500"
+        >
           Register for free
         </router-link>
       </p>
     </div>
-    <form class="mt-8 space-y-6" action="#" method="POST">
+    <form class="mt-8 space-y-6" @submit.prevent="login">
+      <div v-if="errorMsg" class="py-3 px-5 bg-red-500 text-white rounded flex justify-between">
+        {{ errorMsg }}
+        <span
+          @click="errorMsg = ''"
+          class="w-8 h-8 flex items-center justify-center transition-colors rounded-full cursor-pointer hover:bg-[rgba(0,0,0,0.2)]"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </span>
+      </div>
       <input type="hidden" name="remember" value="true" />
       <div class="rounded-md shadow-sm -space-y-px">
         <div>
           <label for="email-address" class="sr-only">Email address</label>
           <input
+            v-model="user.email"
             id="email-address"
             name="email"
             type="email"
@@ -35,6 +61,7 @@
         <div>
           <label for="password" class="sr-only">Password</label>
           <input
+            v-model="user.password"
             id="password"
             name="password"
             type="password"
@@ -49,6 +76,7 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center">
           <input
+            v-model="user.status"
             id="remember-me"
             name="remember-me"
             type="checkbox"
@@ -62,7 +90,6 @@
 
       <div>
         <button
-          type="submit"
           class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           <span class="absolute left-0 inset-y-0 flex items-center pl-3">
@@ -78,12 +105,36 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { LockClosedIcon } from "@heroicons/vue/solid";
+import { reactive, ref } from "@vue/reactivity";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
-export default {
-  name: "Login",
-  components: { LockClosedIcon },
+const store = useStore();
+const router = useRouter();
+
+const user = reactive({
+  email: null,
+  password: null,
+  status: false,
+});
+
+const errorMsg = ref("");
+
+const login = () => {
+  store
+    .dispatch("login", user)
+    .then((success) => {
+      router.push({ name: "Dashboard" });
+    })
+    .catch((err) => {
+      // errorMsg.value = err.message;
+      errorMsg.value = err.response.data.message ?? err.response.data.error;
+      setTimeout(() => {
+        errorMsg.value = "";
+      }, 8000);
+    });
 };
 </script>
 
