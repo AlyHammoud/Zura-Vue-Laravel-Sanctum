@@ -158,7 +158,7 @@ const store = createStore({
     loadingWhole: false,
 
     surveys: [...tmpSurveys],
-
+    questionTypes: ["text", "select", "radio", "checkbox", "textarea"],
   },
 
   getters: {},
@@ -181,7 +181,7 @@ const store = createStore({
     },
 
     loadingWhole(state, payload) {
-      state.loadingWhole = payload;
+      state.loadingWhole = !state.loadingWhole;
     },
   },
 

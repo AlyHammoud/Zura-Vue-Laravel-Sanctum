@@ -1,6 +1,5 @@
 <template>
   <div>
-    <LoadingWhole v-if="this.$store.state.loadingWhole" />
     <div>
       <img
         class="mx-auto h-12 w-auto"
@@ -103,6 +102,7 @@
             />
           </span>
           Sign in
+          <div class="loading-login" v-if="store.state.loadingWhole" />
         </button>
       </div>
     </form>
@@ -128,21 +128,45 @@ const user = reactive({
 const errorMsg = ref("");
 
 const login = () => {
-  store.commit("loadingWhole", true);
+  store.commit("loadingWhole");
   store
     .dispatch("login", user)
     .then((success) => {
-      store.commit("loadingWhole", false);
+      store.commit("loadingWhole");
       router.push({ name: "Dashboard" });
     })
     .catch((err) => {
       // errorMsg.value = err.message;
+      store.commit("loadingWhole");
+
       errorMsg.value = err.response.data.message ?? err.response.data.error;
+      console.log(err.response.data.message ?? err.response.data.error);
       setTimeout(() => {
-        errorMsg.value = "";
+          errorMsg.value = "";
       }, 8000);
     });
 };
 </script>
 
-<style></style>
+<style>
+  .loading-login{
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: 160px;
+    top: 6px;
+    outline: 1px solid white;
+    border-radius: 50%;
+    border-top: 3px solid white;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0%{
+      transform: rotateZ(360deg);
+    }
+    100%{
+      transform: rotateZ(0deg);
+    }
+  }
+</style>

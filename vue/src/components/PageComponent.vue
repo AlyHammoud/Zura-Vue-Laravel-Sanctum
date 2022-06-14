@@ -12,7 +12,7 @@
       <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <!-- Replace with your content -->
         <div class="px-4 py-6 sm:px-0">
-            <slot></slot>
+            <slot name="body"></slot>
         </div>
         <!-- /End replace -->
       </div>
@@ -28,4 +28,6 @@
 
 </script>
 
-<style></style>
+<style>
+
+</style>

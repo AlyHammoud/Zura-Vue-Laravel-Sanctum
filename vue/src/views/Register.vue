@@ -111,7 +111,7 @@ const user = {
   password_confirmation: "",
 };
 
-const isLoading = ref(null);
+const isLoading = ref(false);
 
 const register =  () => {
 
@@ -125,7 +125,7 @@ const register =  () => {
 };
 
 const loading = computed(() =>{
-  if(isLoading){
+  if(isLoading.value){
     return "Loading..."
   }
   return "Sign Up"
