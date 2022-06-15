@@ -198,7 +198,7 @@
 
 <script setup>
 import { ref } from "@vue/reactivity";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import PageComponent from "../components/PageComponent.vue";
 import QuestionEditor from "../components/Editor/QuestionEditor.vue";
@@ -206,6 +206,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const route = useRoute();
 const store = useStore();
+const router = useRouter();
 
 const model = ref({
   title: "",
@@ -219,10 +220,17 @@ const model = ref({
 if (route.params.id) {
   model.value = store.state.surveys.find(
     (s) => s.id === parseInt(route.params.id)
-  );
+  ) ?? {
+    title: "",
+    status: false,
+    description: null,
+    image: null,
+    expira_date: null,
+    questions: [],
+  };
 }
 
-function addQuestion(index) {
+function addQuestion(index = null) {
   const newQuestion = {
     id: uuidv4(),
     type: "text",

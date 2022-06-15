@@ -164,6 +164,13 @@ const store = createStore({
   getters: {},
 
   mutations: {
+
+    deteteSurvey: (state, id) => {
+      state.surveys = state.surveys.filter((survey) => {
+        return Number(survey.id) !== Number(id);
+      });
+    },
+
     logout: (state) => {
       state.user.data = {};
       state.user.token = null;
