@@ -205,7 +205,7 @@ const emit = defineEmits(["change", "addQuestion", "deleteQuestion"]);
 // Re-create the whole question data to avoid unintentional reference change
 const model = ref(JSON.parse(JSON.stringify(props.question)));
 // Get question types from vuex
-const questionTypes = computed(() => store.state.questionTypes);
+const questionTypes = computed(() => store.state.questionTypes); //add types to select
 function upperCaseFirst(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }

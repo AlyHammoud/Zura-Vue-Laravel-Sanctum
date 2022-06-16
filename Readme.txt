@@ -22,3 +22,12 @@ Survey Page: views all surveys posted
         but in page SurveyView we are checking for route.params.id if exists then it is editing,
         else it is creating new one
 
+
+//////
+    create a controller for api:
+        sail artisan make:controller SurveyController --model=Survey --api --request
+
+    create a survey resource:
+        sail artisan make:resource SurveyResource
+
+        then install laravel-sluggable
