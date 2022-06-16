@@ -7,13 +7,14 @@ const tmpSurveys = [
     title: "HERE IS A TITLE",
     slug: "HERE IS THE SLUG",
     status: "draft",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    description: "My name is BlaBla.<br>I am who developer with 9 years+ of expericence, free educational ",
+    image:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    description:
+      "My name is BlaBla.<br>I am who developer with 9 years+ of expericence, free educational ",
     created_at: "2022-01-20 18:00:00",
     updated_at: "2022-01-20 18:00:00",
     expire_date: "2022-03-20 18:00:00",
     questions: [
-
       {
         id: 1,
         type: "select",
@@ -21,12 +22,12 @@ const tmpSurveys = [
         description: null,
         data: {
           options: [
-            {uuid: "aasdadsasda-asd-asd-asd-aa", text: "USA"},
-            {uuid: "zxczxc-zxc-z-xcz-xczc-zcx", text: "India"},
-            {uuid: "qweqw-qwe-qwe-qweqwe-qweq", text: "France"},
-            {uuid: "fghfgh-fgh-fghfh-fghfgh-f", text: "Germany"},
+            { uuid: "aasdadsasda-asd-asd-asd-aa", text: "USA" },
+            { uuid: "zxczxc-zxc-z-xcz-xczc-zcx", text: "India" },
+            { uuid: "qweqw-qwe-qwe-qweqwe-qweq", text: "France" },
+            { uuid: "fghfgh-fgh-fghfh-fghfgh-f", text: "Germany" },
           ],
-        }
+        },
       },
 
       {
@@ -36,12 +37,12 @@ const tmpSurveys = [
         description: null,
         data: {
           options: [
-            {uuid: "aasdadsasda1-asd-asd-asd-aa", text: "PHP"},
-            {uuid: "zxczxc-zxc-z1-xcz-xczc-zcx", text: "Java"},
-            {uuid: "qweqw-qwe-qwe1-qweqwe-qweq", text: "C#"},
-            {uuid: "fghfgh-fgh-fgh1fh-fghfgh-f", text: "Python"},
+            { uuid: "aasdadsasda1-asd-asd-asd-aa", text: "PHP" },
+            { uuid: "zxczxc-zxc-z1-xcz-xczc-zcx", text: "Java" },
+            { uuid: "qweqw-qwe-qwe1-qweqwe-qweq", text: "C#" },
+            { uuid: "fghfgh-fgh-fgh1fh-fghfgh-f", text: "Python" },
           ],
-        }
+        },
       },
 
       {
@@ -51,12 +52,12 @@ const tmpSurveys = [
         description: null,
         data: {
           options: [
-            {uuid: "aasdadsas22da-asd-asd-a2sd-aa", text: "21"},
-            {uuid: "zxczxc-zxc-223z-xcz-xcz2c-zcx", text: "35"},
-            {uuid: "qweqw-qwe-qwe-33qw2eqw2e-qweq", text: "66"},
-            {uuid: "fghfgh-fgh-fghfh23-f2ghfgh-f", text: "88"},
+            { uuid: "aasdadsas22da-asd-asd-a2sd-aa", text: "21" },
+            { uuid: "zxczxc-zxc-223z-xcz-xcz2c-zcx", text: "35" },
+            { uuid: "qweqw-qwe-qwe-33qw2eqw2e-qweq", text: "66" },
+            { uuid: "fghfgh-fgh-fghfh23-f2ghfgh-f", text: "88" },
           ],
-        }
+        },
       },
 
       {
@@ -66,12 +67,12 @@ const tmpSurveys = [
         description: null,
         data: {
           options: [
-            {uuid: "aasdadsasda-asd-asd-a2sd-aa", text: "Swimming"},
-            {uuid: "zxczxc-zxc-z-xcz-xcz2c-zcx", text: "Running"},
-            {uuid: "qweqw-qwe-qwe-qweqw2e-qweq", text: "Jogging"},
-            {uuid: "fghfgh-fgh-fghfh-f2ghfgh-f", text: "Soccer"},
+            { uuid: "aasdadsasda-asd-asd-a2sd-aa", text: "Swimming" },
+            { uuid: "zxczxc-zxc-z-xcz-xcz2c-zcx", text: "Running" },
+            { uuid: "qweqw-qwe-qwe-qweqw2e-qweq", text: "Jogging" },
+            { uuid: "fghfgh-fgh-fghfh-f2ghfgh-f", text: "Soccer" },
           ],
-        }
+        },
       },
 
       {
@@ -81,12 +82,12 @@ const tmpSurveys = [
         description: null,
         data: {
           options: [
-            {uuid: "aasdadsasda-asd-asd-a2sd-aa", text: "Male"},
-            {uuid: "zxczxc-zxc-z-xcz-xcz2c-zcx", text: "Female"},
-            {uuid: "qweqw-qwe-qwe-qweqw2e-qweq", text: "Baby"},
-            {uuid: "fghfgh-fgh-fghfh-f2ghfgh-f", text: "Boy"},
+            { uuid: "aasdadsasda-asd-asd-a2sd-aa", text: "Male" },
+            { uuid: "zxczxc-zxc-z-xcz-xcz2c-zcx", text: "Female" },
+            { uuid: "qweqw-qwe-qwe-qweqw2e-qweq", text: "Baby" },
+            { uuid: "fghfgh-fgh-fghfh-f2ghfgh-f", text: "Boy" },
           ],
-        }
+        },
       },
 
       {
@@ -94,7 +95,7 @@ const tmpSurveys = [
         type: "text",
         question: "What is your favourite youtube channel?",
         description: null,
-        data: {}
+        data: {},
       },
 
       {
@@ -102,10 +103,8 @@ const tmpSurveys = [
         type: "textarea",
         question: "What do you know about your country",
         description: "Write your honest opinion. Everything is anonymous",
-        data: {}
+        data: {},
       },
-
-
     ],
   },
 
@@ -114,12 +113,14 @@ const tmpSurveys = [
     title: "Laravel 8",
     slug: "HERE IS THE SLUG",
     status: "draft",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    description: "My name is BlaBla.<br>I am who developer with 9 years+ of expericence, free educational ",
+    image:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    description:
+      "My name is BlaBla.<br>I am who developer with 9 years+ of expericence, free educational ",
     created_at: "2022-01-20 18:00:00",
     updated_at: "2022-01-20 18:00:00",
     expire_date: "2022-03-20 18:00:00",
-    questions: []
+    questions: [],
   },
 
   {
@@ -127,26 +128,30 @@ const tmpSurveys = [
     title: "Tailwind CSS",
     slug: "HERE IS THE SLUG",
     status: "draft",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    description: "My name is BlaBla.<br>I am who developer with 9 years+ of expericence, free educational ",
+    image:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    description:
+      "My name is BlaBla.<br>I am who developer with 9 years+ of expericence, free educational ",
     created_at: "2022-01-20 18:00:00",
     updated_at: "2022-01-20 18:00:00",
     expire_date: "2022-03-20 18:00:00",
-    questions: []
+    questions: [],
   },
   {
     id: 400,
     title: "JavaScript",
     slug: "HERE IS THE SLUG",
     status: "draft",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    description: "My name is BlaBla.<br>I am who developer with 9 years+ of expericence, free educational ",
+    image:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    description:
+      "My name is BlaBla.<br>I am who developer with 9 years+ of expericence, free educational ",
     created_at: "2022-01-20 18:00:00",
     updated_at: "2022-01-20 18:00:00",
     expire_date: "2022-03-20 18:00:00",
-    questions: []
+    questions: [],
   },
-]
+];
 
 const store = createStore({
   state: {
@@ -164,7 +169,6 @@ const store = createStore({
   getters: {},
 
   mutations: {
-
     deteteSurvey: (state, id) => {
       state.surveys = state.surveys.filter((survey) => {
         return Number(survey.id) !== Number(id);
@@ -190,6 +194,21 @@ const store = createStore({
     loadingWhole(state, payload) {
       state.loadingWhole = !state.loadingWhole;
     },
+
+    saveSurvey(state, survey){
+      state.surveys = [...state.surveys, survey.data]
+      // state.surveys = state.surveys.push(survey);
+      
+    },
+
+    updateSurvey(state, survey){
+      state.surveys = state.surveys.map((s) => {
+        if(s.id == survey.data.id){
+          return survey.data
+        }
+        return s;
+      })
+    }
   },
 
   actions: {
@@ -228,6 +247,27 @@ const store = createStore({
         if (res) commit("logout");
         return res;
       });
+    },
+
+    async saveSurvey({ commit }, survey) {
+      let response;
+      if (survey.id) {
+        //if true we are updating, else create new
+        response = axiosClient
+          .put(`/survey/${survey.id}`, survey)
+          .then((res) => {
+            commit("updateSurvey", res.data);
+            return res;
+          });
+      } else {
+        response = axiosClient
+          .post('/survey', survey)
+          .then((res) => {
+            commit("saveSurvey", res.data);
+            return res;
+          });
+      }
+      return await response;
     },
   },
 

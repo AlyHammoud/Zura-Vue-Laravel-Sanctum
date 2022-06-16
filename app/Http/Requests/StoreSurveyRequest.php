@@ -19,7 +19,7 @@ class StoreSurveyRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'user_id' => $this->user->id
+            'user_id' => $this->user()->id
         ]);
     }
 

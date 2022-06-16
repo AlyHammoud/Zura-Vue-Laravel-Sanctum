@@ -257,6 +257,12 @@ function questionChange(question) {
 function deleteQuestion(question) {
   model.value.questions = model.value.questions.filter((q) => q !== question);
 }
+
+function saveSurvey() {
+  store.dispatch("saveSurvey", model.value).then(({ data }) => {
+    router.push({ name: "SurveyView", params: { id: data.data.id } });
+  });
+}
 </script>
 
 <style></style>

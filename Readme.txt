@@ -25,7 +25,9 @@ Survey Page: views all surveys posted
 
 //////
     create a controller for api:
-        sail artisan make:controller SurveyController --model=Survey --api --request
+        sail artisan make:controller SurveyController --model=Survey --api --request   
+            //this command create a resource controller, but without create and edit, since using --api 
+                which omits these two functions
 
     create a survey resource:
         sail artisan make:resource SurveyResource
