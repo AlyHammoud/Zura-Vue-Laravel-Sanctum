@@ -250,24 +250,25 @@ const store = createStore({
     },
 
     async saveSurvey({ commit }, survey) {
+      delete survey.image_url;
       let response;
-      if (survey.id) {
+      if (survey.id) {console.log(survey);
         //if true we are updating, else create new
-        response = axiosClient
+        response = await axiosClient
           .put(`/survey/${survey.id}`, survey)
           .then((res) => {
             commit("updateSurvey", res.data);
             return res;
           });
       } else {
-        response = axiosClient
+        response = await axiosClient
           .post('/survey', survey)
           .then((res) => {
             commit("saveSurvey", res.data);
             return res;
           });
       }
-      return await response;
+      return response;
     },
   },
 

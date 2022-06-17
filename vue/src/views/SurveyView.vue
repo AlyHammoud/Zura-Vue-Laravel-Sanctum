@@ -17,8 +17,8 @@
               </label>
               <div class="mt-1 flex items-center">
                 <img
-                  v-if="model.image"
-                  :src="model.image"
+                  v-if="model.image_url"
+                  :src="model.image_url"
                   :alt="model.title"
                   class="w-64 h-48 object-cover"
                 />
@@ -203,6 +203,7 @@ import { useStore } from "vuex";
 import PageComponent from "../components/PageComponent.vue";
 import QuestionEditor from "../components/Editor/QuestionEditor.vue";
 import { v4 as uuidv4 } from "uuid";
+import { computed, watchEffect } from "@vue/runtime-core";
 
 const route = useRoute();
 const store = useStore();
@@ -213,21 +214,37 @@ const model = ref({
   status: false,
   description: null,
   image: null,
-  expira_date: null,
+  expire_date: null,
   questions: [],
 });
 
-if (route.params.id) {
-  model.value = store.state.surveys.find(
-    (s) => s.id === parseInt(route.params.id)
-  ) ?? {
-    title: "",
-    status: false,
-    description: null,
-    image: null,
-    expira_date: null,
-    questions: [],
-  };
+watchEffect(() => {
+  if (route.params.id) {
+    model.value = store.state.surveys.find(
+      (s) => s.id === parseInt(route.params.id)
+    ) ?? {
+      title: "",
+      status: false,
+      description: null,
+      image: null,
+      expire_date: null,
+      questions: [],
+    };
+  }
+});
+
+function onImageChoose(ev){
+  const file = ev.target.files[0];
+
+  const reader = new FileReader(); // for image preview
+  reader.onload = () => {
+    //the field to send on backend and apply validation
+    model.value.image = reader.result;
+
+    //The field to display on front end
+    model.value.image_url = reader.result;
+  }
+  reader.readAsDataURL(file);
 }
 
 function addQuestion(index = null) {
@@ -258,8 +275,13 @@ function deleteQuestion(question) {
   model.value.questions = model.value.questions.filter((q) => q !== question);
 }
 
-function saveSurvey() {
-  store.dispatch("saveSurvey", model.value).then(({ data }) => {
+async function saveSurvey() {
+  if (model.value.id) {
+    alert("existed");
+  } else {
+    alert("not");
+  }
+  await store.dispatch("saveSurvey", model.value).then(({ data }) => {
     router.push({ name: "SurveyView", params: { id: data.data.id } });
   });
 }

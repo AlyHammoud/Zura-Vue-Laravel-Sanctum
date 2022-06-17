@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Survey;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use App\Http\Resources\SurveyResource;
 use App\Http\Requests\StoreSurveyRequest;
 use App\Http\Requests\UpdateSurveyRequest;
-use App\Http\Resources\SurveyResource;
-use App\Models\Survey;
-use Illuminate\Http\Request;
 
 class SurveyController extends Controller
 {
@@ -30,9 +32,57 @@ class SurveyController extends Controller
      */
     public function store(StoreSurveyRequest $request)
     {
-        $result = Survey::create($request->validated());
+        $data = $request->validated();
 
-        return new SurveyResource($result);
+        //check if image was given and save on local file system
+        if(isset($data['image'])){
+            $relativePath = $this->saveImage($data['image']); //create saveImage function by own
+            $data['image'] = $relativePath;
+        }
+
+        $survey = Survey::create($data);
+        
+        // return response($survey, 200); instead of sending all data back use Resource to send back as json with specific cols we need, more secure and managable
+        return new SurveyResource($survey);
+    }
+
+    private function saveImage($image){
+        
+        //check if image is valid base64 string
+        if(preg_match('/^data:image\/(\w+);base64,/', $image, $type)){
+            //take out the base64 encoded text without mime type
+            $image = substr($image, strpos($image, ',') + 1);
+
+            //Get file extension
+            $type = strtolower($type[1]); //jpg, png, gif
+
+            //check if file is an image 
+            if(!in_array($type, ['jpg','jpeg','gif','png','svg'])){
+                throw new \Exception('invalid image type');
+            }
+
+            $image = str_replace(' ','+', $image);
+            $image = base64_decode($image);
+
+            if($image === false){
+                throw new \Exception('base64_decode failed');
+            }
+
+
+        }else{
+            throw new \Exception('did not match data URI with image data');
+        }
+
+        $dir = 'images/';
+        $file = Str::random().'.'.$type;
+        $absolutePath = public_path($dir);
+        $relativePath = $dir.$file;
+        if(!File::exists($absolutePath)){
+            File::makeDirectory($absolutePath, 0755, true);
+        }
+        file_put_contents($relativePath, $image);
+
+        return $relativePath;
     }
 
     /**
@@ -45,7 +95,7 @@ class SurveyController extends Controller
     {
         $user = $request->user();
         if($user->id !== $survey->user_id){
-            return abort(403, "Unauthorized acition.");
+            return abort(403, "Unauthorized acition. Show");
         }
         
         return new SurveyResource($survey);
@@ -75,7 +125,7 @@ class SurveyController extends Controller
         $user = $request->user();
 
         if($user->id !== $survey->user_id){
-            return abort(403, "Unauthorized action.");
+            return abort(403, "Unauthorized action. Destroy");
         }
 
         $survey->delete();
