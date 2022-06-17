@@ -47,11 +47,12 @@ class SurveyController extends Controller
     }
 
     private function saveImage($image){
-        
-        //check if image is valid base64 string
+        //image is base64 encoded, so we need to decode it.
+
+        //check if image is valid base64 string 
         if(preg_match('/^data:image\/(\w+);base64,/', $image, $type)){
             //take out the base64 encoded text without mime type
-            $image = substr($image, strpos($image, ',') + 1);
+            $image = substr($image, strpos($image, ',') + 1); //remove befrore ,  data:image/png;base64,iVBORw0KGg....
 
             //Get file extension
             $type = strtolower($type[1]); //jpg, png, gif
@@ -75,11 +76,14 @@ class SurveyController extends Controller
 
         $dir = 'images/';
         $file = Str::random().'.'.$type;
+
         $absolutePath = public_path($dir);
         $relativePath = $dir.$file;
+
         if(!File::exists($absolutePath)){
             File::makeDirectory($absolutePath, 0755, true);
         }
+
         file_put_contents($relativePath, $image);
 
         return $relativePath;
@@ -110,7 +114,20 @@ class SurveyController extends Controller
      */
     public function update(UpdateSurveyRequest $request, Survey $survey)
     {
-        $survey->update($request->validated());
+        $data = $request->validated();
+
+        if(isset($data['image'])){
+            $relativePath = $this->saveImage($data['image']);
+            $data['image'] = $relativePath;
+
+            //if there is an old image, remove it
+            if($survey->image){
+                $absolutePath = public_path(($survey->image));
+                File::delete($absolutePath);
+            }
+        }
+
+        $survey->update($data);
         return new SurveyResource($survey);
     }
 
