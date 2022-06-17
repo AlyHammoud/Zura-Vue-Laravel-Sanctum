@@ -3,12 +3,14 @@
     <template v-slot:header>
       <div class="flex items-center justify-between">
         <h1 class="text-3xl font-bold text-gray-900">
-          {{ model.id ? model.title : "Create Survey" }}
+          {{ route.params.id ? model.title : "Create Survey" }}
         </h1>
       </div>
     </template>
+    
     <template v-slot:body>
-      <form @submit.prevent="saveSurvey">
+      <div v-if="surveyLoading" class="flex justify-center">Loading...</div>
+      <form v-else @submit.prevent="saveSurvey">
         <div class="shadow sm:rounded-md sm:overflow-hidden">
           <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
             <div class="">
@@ -203,7 +205,7 @@ import { useStore } from "vuex";
 import PageComponent from "../components/PageComponent.vue";
 import QuestionEditor from "../components/Editor/QuestionEditor.vue";
 import { v4 as uuidv4 } from "uuid";
-import { computed, watchEffect } from "@vue/runtime-core";
+import { computed, watch, watchEffect } from "@vue/runtime-core";
 
 const route = useRoute();
 const store = useStore();
@@ -213,27 +215,33 @@ const model = ref({
   title: "",
   status: false,
   description: null,
-  image: null,
+  image_url: null,
   expire_date: null,
   questions: [],
 });
 
+const surveyLoading = computed(() => {
+  return store.state.currentSurvey.loading
+});
+
+// when the current survey data change update local model variable
+watch(
+  () => store.state.currentSurvey.data,
+  (newValue, oldValue) => {
+    model.value = {
+      ...JSON.parse(JSON.stringify(newValue)),
+      status: newValue.status !== "draft",
+    };
+  }
+);
+
 watchEffect(() => {
   if (route.params.id) {
-    model.value = store.state.surveys.find(
-      (s) => s.id === parseInt(route.params.id)
-    ) ?? {
-      title: "",
-      status: false,
-      description: null,
-      image: null,
-      expire_date: null,
-      questions: [],
-    };
+    store.dispatch("getSurvey", route.params.id);
   }
 });
 
-function onImageChoose(ev){
+function onImageChoose(ev) {
   const file = ev.target.files[0];
 
   const reader = new FileReader(); // for image preview
@@ -243,7 +251,7 @@ function onImageChoose(ev){
 
     //The field to display on front end
     model.value.image_url = reader.result;
-  }
+  };
   reader.readAsDataURL(file);
 }
 

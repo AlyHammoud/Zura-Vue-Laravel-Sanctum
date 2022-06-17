@@ -62,3 +62,12 @@ Image display vue js:
   }
   reader.readAsDataURL(file);
 }
+
+
+
+// to get the acutal image path:
+
+    use :
+    use Illuminate\Support\Facades\URL;
+    
+    URL::to($this->image)  // then send it back to the front end
