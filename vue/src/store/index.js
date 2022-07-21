@@ -17,9 +17,16 @@ const store = createStore({
 
     surveys: {
       loading: false,
-      data: []
+      data: [],
+      links: []
     },
     questionTypes: ["text", "select", "radio", "checkbox", "textarea"],
+
+    notification:{
+      show: false,
+      type: null,
+      message: null
+    }
   },
 
   getters: {},
@@ -63,11 +70,19 @@ const store = createStore({
       state.surveys.loading = loading;
     },
 
-    setSurveys(state, surveys){
+    setSurveys(state, surveys){ 
       state.surveys.data = surveys.data
+      state.surveys.links = surveys.meta.links;
+    },
+
+    notify:(state, {message, type}) => {
+      state.notification.show = true;
+      state.notification.type = type;
+      state.notification.message = message;
+      setTimeout(() => {
+        state.notification.show = false;
+      }, 3000);
     }
-
-
   },
 
   actions: {
@@ -127,7 +142,6 @@ const store = createStore({
       delete survey.image_url;
       let response;
       if (survey.id) {
-        console.log(survey);
         //if true we are updating, else create new
         response = await axiosClient
           .put(`/survey/${survey.id}`, survey)
@@ -148,9 +162,10 @@ const store = createStore({
       return await axiosClient.delete('/survey/'+id);
     },
 
-    async getSurveys({commit}){
+    async getSurveys({commit}, {url = null} = {}){
+      url = url || '/survey'
       commit('setSurveysLoading', true);
-      return await axiosClient.get('/survey').then((res) => {
+      return await axiosClient.get(url).then((res) => {
         commit("setSurveysLoading", false);
         commit("setSurveys", res.data);
         return res;

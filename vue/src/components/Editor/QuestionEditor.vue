@@ -140,12 +140,14 @@
           <!--/ Add new option -->
         </h4>
 
-        <div
-          v-if="!model.data.options.length"
-          class="text-xs text-gray-600 text-center py-3"
-        >
-          You don't have any options defined
-        </div>
+        <div v-if="model.data.options">
+          <div
+            v-if="!model.data.options.length"
+            class="text-xs text-gray-600 text-center py-3"
+          >
+            You don't have any options defined
+          </div>
+        
         <!-- Option list -->
         <div
           v-for="(option, index) in model.data.options"
@@ -181,6 +183,7 @@
           </button>
           <!--/ Delete Option -->
         </div>
+        </div>
         <!--/ Option list -->
       </div>
     </div>
@@ -203,15 +206,16 @@ const props = defineProps({
 const store = useStore();
 const emit = defineEmits(["change", "addQuestion", "deleteQuestion"]);
 // Re-create the whole question data to avoid unintentional reference change
-const model = ref(JSON.parse(JSON.stringify(props.question)));
+const model = ref(JSON.parse(JSON.stringify(props.question))); 
 // Get question types from vuex
 const questionTypes = computed(() => store.state.questionTypes); //add types to select
 function upperCaseFirst(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
-function getOptions() {
+function getOptions() { 
   return model.value.data.options;
 }
+
 function setOptions(options) {
   model.value.data.options = options;
 }

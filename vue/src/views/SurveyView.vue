@@ -33,7 +33,7 @@
 
     <template v-slot:body>
       <div v-if="surveyLoading" class="flex justify-center">Loading...</div>
-      <form v-else @submit.prevent="saveSurvey">
+      <form v-else @submit.prevent="saveSurvey" class="animate-fade-in-down">
         <div class="shadow sm:rounded-md sm:overflow-hidden">
           <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
             <div class="">
@@ -307,12 +307,11 @@ function deleteQuestion(question) {
 }
 
 async function saveSurvey() {
-  if (model.value.id) {
-    alert("existed");
-  } else {
-    alert("not");
-  }
   await store.dispatch("saveSurvey", model.value).then(({ data }) => {
+    store.commit('notify',{
+      type: 'success',
+      message: 'Saved successfult'
+    })
     router.push({ name: "SurveyView", params: { id: data.data.id } });
   });
 }

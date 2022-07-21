@@ -116,11 +116,13 @@
     </Disclosure>
 
     <router-view></router-view>
+    <Notification />
   </div>
 </template>
 
 <script>
 import LoadingWhole from "./MyAddOns/LoadingWhole.vue";
+import Notification from "./MyAddOns/Notification.vue";
 import {
   Disclosure,
   DisclosureButton,
@@ -152,6 +154,7 @@ export default {
     XIcon,
 
     LoadingWhole,
+    Notification,
   },
 
   setup() {
