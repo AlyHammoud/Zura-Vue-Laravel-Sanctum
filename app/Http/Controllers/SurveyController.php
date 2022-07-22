@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Survey;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\SurveyQuestion;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rules\Enum;
 use App\Http\Resources\SurveyResource;
@@ -14,8 +16,9 @@ use App\Http\Requests\StoreSurveyRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdateSurveyRequest;
 use App\Http\Resources\SurveyQuestionResource;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\URL;
+use App\Http\Requests\StoreSurveyAnswerRequest;
+use App\Models\SurveyAnswer;
+use App\Models\SurveyQuestionAnswer;
 
 class SurveyController extends Controller
 {
@@ -151,6 +154,11 @@ class SurveyController extends Controller
         return new SurveyResource($survey);
     }
 
+    public function showForGuest(Survey $survey)
+    {
+        return new SurveyResource($survey);
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -256,5 +264,29 @@ class SurveyController extends Controller
         }
 
         return response('', 204);
+    }
+
+    public function storeAnswer(StoreSurveyAnswerRequest $request, Survey $survey){
+        $validated = $request->validated();
+
+        $surveyAnswer = $survey->answers()->create([
+            'start_date' => date('Y-m-d H:i:s'),
+            'end_date' => date('Y-m-d H:i:s'),
+        ]);
+
+        foreach($validated['answers'] as $questionId => $answer){
+            $question = SurveyQuestion::where(['id' => $questionId, 'survey_id' => $survey->id])->get(); //for more security, check if this answers of the question really relates to this survey
+            if(!$question){
+                return response("Invalid question ID: \"$questionId\"", 400);
+            }
+            $data = [
+                'survey_question_id' => $questionId,
+                'survey_answer_id' => $surveyAnswer->id,
+                'text' => is_array($answer) ? json_encode($answer) : $answer
+            ];
+
+            SurveyQuestionAnswer::create($data);
+        }
+        return response('', 201);
     }
 }

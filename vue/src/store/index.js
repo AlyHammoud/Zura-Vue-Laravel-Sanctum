@@ -22,7 +22,7 @@ const store = createStore({
     },
     questionTypes: ["text", "select", "radio", "checkbox", "textarea"],
 
-    notification:{
+    notification: {
       show: false,
       type: null,
       message: null
@@ -66,16 +66,16 @@ const store = createStore({
       state.currentSurvey.data = survey.data;
     },
 
-    setSurveysLoading(state, loading){
+    setSurveysLoading(state, loading) {
       state.surveys.loading = loading;
     },
 
-    setSurveys(state, surveys){ 
+    setSurveys(state, surveys) {
       state.surveys.data = surveys.data
       state.surveys.links = surveys.meta.links;
     },
 
-    notify:(state, {message, type}) => {
+    notify: (state, { message, type }) => {
       state.notification.show = true;
       state.notification.type = type;
       state.notification.message = message;
@@ -158,11 +158,11 @@ const store = createStore({
       return response;
     },
 
-      async deleteSurvey({}, id){
-      return await axiosClient.delete('/survey/'+id);
+    async deleteSurvey({ }, id) {
+      return await axiosClient.delete('/survey/' + id);
     },
 
-    async getSurveys({commit}, {url = null} = {}){
+    async getSurveys({ commit }, { url = null } = {}) {
       url = url || '/survey'
       commit('setSurveysLoading', true);
       return await axiosClient.get(url).then((res) => {
@@ -170,7 +170,24 @@ const store = createStore({
         commit("setSurveys", res.data);
         return res;
       })
-    }
+    },
+
+    async getSurveyBySlug({ commit }, slug) {
+      commit("setCurrentSurveyLoading", true);
+      return axiosClient.get(`/survey-by-slug/${slug}`)
+        .then((res) => {
+          commit("setCurrentSurvey", res.data);
+          commit("setCurrentSurveyLoading", false);
+          return res;
+        }).catch((err) => {
+          commit("setCurrentSurveyLoading", false);
+          throw err;
+        });
+    },
+
+    async saveSurveyAnswer({commit}, {surveyId, answers}){
+      return axiosClient.post(`/survey/${surveyId}/answer`, {answers})
+    },
 
   },
 

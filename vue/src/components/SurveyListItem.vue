@@ -31,6 +31,13 @@
         </router-link>
         <!-- /EditButton -->
 
+        <div class="flex-items-center">
+          <a :href="`/view/survey/${survey.slug}`" target="_blank" 
+          class="h-8 w-8 flex items-center justify-center rounded-full border border-transparent text-sm text-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              edit
+          </a>
+        </div>
+
         <!-- DeleteButton -->
         <button
           v-if="survey.id"
